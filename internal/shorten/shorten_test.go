@@ -3,7 +3,7 @@ package shorten_test
 import (
 	"testing"
 
-	"github.com/errrov/linkshortener/internal/shorten"
+	"github.com/errrov/urlshortenerozon/internal/shorten"
 )
 
 func TestShortenValid(t *testing.T) {
