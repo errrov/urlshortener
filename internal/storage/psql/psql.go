@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-
 	"os"
 
 	"github.com/errrov/urlshortenerozon/internal/model"
@@ -53,7 +52,6 @@ func InitConnectionInfo() ConnectionInfo {
 
 func (d *Postgresql) EnsureTableExists() {
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
-	log.Println("Connection string:", connectionStr)
 	cfg, err := pgxpool.ParseConfig(connectionStr)
 	if err != nil {
 		log.Panic(err)
@@ -70,7 +68,6 @@ func (d *Postgresql) EnsureTableExists() {
 
 func (d *Postgresql) Add(shortened model.Shortened) (*model.Shortened, error) {
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
-	log.Println("Connection string:", connectionStr)
 	cfg, err := pgxpool.ParseConfig(connectionStr)
 	if err != nil {
 		log.Panic(err)
