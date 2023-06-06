@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgrespw'
+    volumes: 
+      - db:/var/lib/postgresql/data
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    networks:
+      - default
+    ports:
+      - "8080:8080"
+
+volumes:
+  db:
+    driver: local

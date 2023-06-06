@@ -13,13 +13,7 @@ import (
 )
 
 func TestConnection(t *testing.T) {
-	d := psql.ConnectionInfo{
-		User:     "postgres",
-		Password: "your_password",
-		Host:     "localhost",
-		Port:     "5432",
-		Name:     "shourturl",
-	}
+	d := psql.InitConnectionInfo()
 	shortened := model.Shortened{Identifier: "xddd", Original: "https://www.google.com"}
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.User, d.Password, d.Host, d.Port, d.Name)
 	cfg, err := pgxpool.ParseConfig(connectionStr)

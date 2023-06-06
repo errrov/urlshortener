@@ -25,14 +25,14 @@ func main() {
 		log.Println("Psql")
 		d = psql.InitConnectionInfo()
 		shorteningStorage = psql.NewPsql(d)
-		log.Println(d)
+		
 
 	} else {
 		shorteningStorage = in_memory.NewInMemory()
 	}
 	shortenService := shorten.NewService(shorteningStorage)
 	srv := server.New(shortenService)
-	port := ":7000"
+	port := ":8080"
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	go func() {
