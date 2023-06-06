@@ -20,13 +20,15 @@ func HandlerRedirect(s *shorten.Service) echo.HandlerFunc {
 			return err
 		}
 		log.Println("Redirect Got identifier:", rReq.Identifier)
-		shortened, err := s.Storage.Get(rReq.Identifier)
+		originalurl, err := s.Redirect(rReq.Identifier)
+		log.Println(err)
 		if err != nil {
 			if err == model.ErrNotFound {
 				return echo.NewHTTPError(http.StatusNotFound)
 			}
 			return echo.NewHTTPError(http.StatusInternalServerError)
 		}
-		return c.Redirect(http.StatusMovedPermanently, shortened.Original)
+		log.Println(originalurl)
+		return c.Redirect(http.StatusMovedPermanently, originalurl)
 	}
 }

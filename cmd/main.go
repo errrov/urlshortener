@@ -25,7 +25,6 @@ func main() {
 		log.Println("Psql")
 		d = psql.InitConnectionInfo()
 		shorteningStorage = psql.NewPsql(d)
-		
 
 	} else {
 		shorteningStorage = in_memory.NewInMemory()
