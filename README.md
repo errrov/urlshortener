@@ -1,4 +1,4 @@
-This is url shortener for Ozon internship.
+# This is url shortener for Ozon internship.
 
 In_memory storage is default option. To use postgres add flag -Memory_type psql
 
