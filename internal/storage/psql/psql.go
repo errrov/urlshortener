@@ -37,7 +37,7 @@ func InitConnectionInfo() ConnectionInfo {
 	User := os.Getenv("APP_DB_USERNAME")
 	Password := os.Getenv("APP_DB_PASSWORD")
 	Host := os.Getenv("APP_DB_HOST")
-	Port := os.Getenv("APP_DB_PORT")
+	Port := "5432"
 	Name := os.Getenv("APP_DB_NAME")
 	return ConnectionInfo{User: User, Password: Password, Host: Host, Port: Port, Name: Name}
 }
