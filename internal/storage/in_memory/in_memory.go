@@ -30,5 +30,3 @@ func (s *inMemory) Get(identifier string) (*model.Shortened, error) {
 	shortening := v.(model.Shortened)
 	return &shortening, nil
 }
-
-

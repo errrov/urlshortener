@@ -27,7 +27,7 @@ func HandlerShorten(shortener shortener) echo.HandlerFunc {
 		if err := c.Bind(&shortenReq); err != nil {
 			return err
 		}
-		log.Println(shortenReq)
+		log.Println("Parsed REQ:", shortenReq)
 		var identifier string
 		if shortenReq.Identifier != "" {
 			identifier = shortenReq.Identifier
