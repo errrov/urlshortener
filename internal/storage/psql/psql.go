@@ -44,7 +44,7 @@ func NewPsql(d ConnectionInfo) *Postgresql {
 func InitConnectionInfo() ConnectionInfo {
 	User := os.Getenv("POSTGRES_USER")
 	Password := os.Getenv("POSTGRES_PASSWORD")
-	Host := "localhost"
+	Host := "postgres"
 	Port := "5432"
 	Name := os.Getenv("POSTGRES_DB")
 	return ConnectionInfo{User: User, Password: Password, Host: Host, Port: Port, Name: Name}
