@@ -6,6 +6,15 @@ Created URL shortener service using Golang, Echo, Postgresql and Docker.
 
 ```docker-compose -f docker-compose.yml up```
 
+# How to change storage type
+
+Using in-memory storage is by default. To change to Postgresql use flag 
+- ```-Memory_type psql ```
+
+To change type of memory in docker : 
+- ```CMD ["/app/main", "-Memory_type","psql"]``` <--> ```CMD ["/app/main"]```
+
+
 # Identifier algorithm 
 
 If identifier is passed with Request and it is not taken, this identifier will be short link for passed URL.
@@ -22,4 +31,6 @@ For Concurrency safety I used :
 
 - In-memory storage : sync.map
 - Postgresql : pgxpool
+
+
 
