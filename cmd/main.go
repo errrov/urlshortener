@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	//"github.com/errrov/urlshortenerozon/internal/model"
 	"os/signal"
 
 	"github.com/errrov/urlshortenerozon/internal/server"
@@ -19,22 +19,26 @@ import (
 
 func main() {
 	var shorteningStorage shorten.Storage
+	var d psql.ConnectionInfo
 	storageType := flag.String("Memory_type", "in_memory", "type of memory storage, psql for using Postgres / default for in_memory")
 	flag.Parse()
 	if *storageType == "psql" {
-		shorteningStorage := psql.Postgresql{}
-		testConnectionString := psql.ConnectionInfo{
-			User: "postgres",
-			Password: "Counter209688",
-			Host: "localhost",
-			Port: "5432",
-			Name: "shorturl",
+		log.Println("Psql")
+		d = psql.ConnectionInfo{
+			User:     "postgres",
+			Password: "your_password",
+			Host:     "localhost",
+			Port:     "5432",
+			Name:     "shourturl",
 		}
-		shorteningStorage.ConnectionString = testConnectionString
+		shorteningStorage = psql.NewPsql(d)
+		log.Println(d)
+		
 
 	} else {
 		shorteningStorage = in_memory.NewInMemory()
 	}
+	fmt.Println("HUIH?")
 	shortenService := shorten.NewService(shorteningStorage)
 	srv := server.New(shortenService)
 	port := ":7000"

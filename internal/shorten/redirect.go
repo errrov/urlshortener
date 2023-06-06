@@ -1,6 +1,7 @@
 package shorten
 
 import (
+	"log"
 
 	"github.com/errrov/urlshortenerozon/internal/model"
 	"github.com/google/uuid"
@@ -31,6 +32,7 @@ func (s *Service) AddShortenLinkToStorage(input model.UserInput) (*model.Shorten
 		Identifier: linkIndetifier,
 		Original:   input.OriginalURL,
 	}
+	log.Println("INSIDE ADD SHORTEN FUNCTION")
 	shortened, err := s.Storage.Add(newUrl)
 	if err != nil {
 		return nil, err

@@ -37,6 +37,7 @@ func HandlerShorten(shortener shortener) echo.HandlerFunc {
 			OriginalURL: shortenReq.URL,
 			Identifier:  identifier,
 		}
+		log.Println("IN test", userInput, identifier)
 		shortening, err := shortener.AddShortenLinkToStorage(userInput)
 		if err != nil {
 			if err == model.ErrIdExist {

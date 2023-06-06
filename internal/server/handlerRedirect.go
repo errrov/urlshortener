@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/errrov/urlshortenerozon/internal/model"
@@ -8,10 +9,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type redirectReq struct {
+	Identifier string `json:"identifier" param:"identifier" query:"identifier"`
+}
+
 func HandlerRedirect(s *shorten.Service) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		identifier := c.Param("identifier")
-		shortened, err := s.Storage.Get(identifier)
+		var rReq redirectReq
+		if err := c.Bind(&rReq); err != nil {
+			return err
+		}
+		log.Println("WHAT?", rReq.Identifier)
+		shortened, err := s.Storage.Get(rReq.Identifier)
 		if err != nil {
 			if err == model.ErrNotFound {
 				return echo.NewHTTPError(http.StatusNotFound)
