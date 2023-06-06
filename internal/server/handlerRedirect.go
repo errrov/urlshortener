@@ -19,7 +19,7 @@ func HandlerRedirect(s *shorten.Service) echo.HandlerFunc {
 		if err := c.Bind(&rReq); err != nil {
 			return err
 		}
-		log.Println("WHAT?", rReq.Identifier)
+		log.Println("Redirect Got identifier:", rReq.Identifier)
 		shortened, err := s.Storage.Get(rReq.Identifier)
 		if err != nil {
 			if err == model.ErrNotFound {
