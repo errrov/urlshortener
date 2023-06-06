@@ -11,7 +11,7 @@ Created URL shortener service using Golang, Echo, Postgresql and Docker.
 Using in-memory storage is by default. To change to Postgresql use flag 
 - ```-Memory_type psql ```
 
-To change type of memory in docker : 
+To change type of memory in Dockerfile : 
 - ```CMD ["/app/main", "-Memory_type","psql"]``` <--> ```CMD ["/app/main"]```
 
 
