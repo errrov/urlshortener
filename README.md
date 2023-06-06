@@ -21,9 +21,9 @@ If identifier is passed with Request and it is not taken, this identifier will b
 
 If identifier is not passed, random generated :
 
-- New UUID is generated
-- UUID is converted to base63 (A-Z a-z 0-9 _)
-- Result is the new Identifier for passed URL
+1. New UUID is generated
+2. UUID is converted to base63 (A-Z a-z 0-9 _)
+3. Result is the new Identifier for passed URL
 
 ## Concurrency safety
 
