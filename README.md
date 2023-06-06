@@ -2,6 +2,8 @@ This is url shortener for Ozon internship.
 
 In_memory storage is default option. To use postgres add flag -Memory_type psql
 
+# Identifiers (short links) generation
+
 How Identifiers (short url) is generated : 
 
   &nbsp;&nbsp; - &nbsp;If identifier and url are passed with request, then it's short identifier for this link.
