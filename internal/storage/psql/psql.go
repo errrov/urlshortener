@@ -43,21 +43,18 @@ func InitConnectionInfo() ConnectionInfo {
 }
 
 func (d *Postgresql) Add(shortened model.Shortened) (*model.Shortened, error) {
-	log.Println("HUH?")
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
 	log.Println("Connection string:", connectionStr)
 	cfg, err := pgxpool.ParseConfig(connectionStr)
 	if err != nil {
 		log.Panic(err)
 	}
-	log.Println("Config parse succesfull")
 	dpPool, err := pgxpool.NewWithConfig(context.Background(), cfg)
 	if err != nil {
 		log.Panic(err)
 	}
-	log.Println("Connection succesfull")
 	defer dpPool.Close()
-	_, err = dpPool.Exec(context.Background(), "INSERT INTO shorturl (originalurl, id) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING", shortened.Original, shortened.Identifier)
+	_, err = dpPool.Exec(context.Background(), "INSERT INTO shorturl (originalurl, id) VALUES ($1, $2)", shortened.Original, shortened.Identifier)
 	if err != nil {
 		return nil, model.ErrIdExist
 	}
@@ -65,9 +62,7 @@ func (d *Postgresql) Add(shortened model.Shortened) (*model.Shortened, error) {
 }
 
 func (d *Postgresql) Get(identifier string) (*model.Shortened, error) {
-	log.Println("ID in start:", identifier)
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
-	log.Println("Connection string:", connectionStr)
 	cfg, err := pgxpool.ParseConfig(connectionStr)
 	if err != nil {
 		log.Panic(err)
@@ -79,7 +74,6 @@ func (d *Postgresql) Get(identifier string) (*model.Shortened, error) {
 	defer dpPool.Close()
 	var db_response Dbrespones
 	err = dpPool.QueryRow(context.Background(), "select * FROM shorturl WHERE id=$1", identifier).Scan(&db_response.OriginalURL, &db_response.Identifier)
-	log.Println("FOUND:", db_response, identifier)
 	if err != nil {
 		return nil, model.ErrNotFound
 	}

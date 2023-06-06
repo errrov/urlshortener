@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,21 +23,13 @@ func main() {
 	flag.Parse()
 	if *storageType == "psql" {
 		log.Println("Psql")
-		d = psql.ConnectionInfo{
-			User:     "postgres",
-			Password: "your_password",
-			Host:     "localhost",
-			Port:     "5432",
-			Name:     "shourturl",
-		}
+		d = psql.InitConnectionInfo()
 		shorteningStorage = psql.NewPsql(d)
 		log.Println(d)
-		
 
 	} else {
 		shorteningStorage = in_memory.NewInMemory()
 	}
-	fmt.Println("HUIH?")
 	shortenService := shorten.NewService(shorteningStorage)
 	srv := server.New(shortenService)
 	port := ":7000"
@@ -50,10 +41,10 @@ func main() {
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server with a timeout of 10 seconds.
-	// Use a buffered channel to avoid missing signals as recommended for signal.Notify
-
 	<-quit
-	_, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+	if err := srv.E.Shutdown(ctx); err != nil {
+		srv.E.Logger.Fatal(err)
+	}
 }

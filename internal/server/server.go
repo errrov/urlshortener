@@ -12,7 +12,7 @@ import (
 
 type Server struct {
 	shortening *shorten.Service
-	e *echo.Echo
+	E *echo.Echo
 }
 
 func New(shortener *shorten.Service) *Server {
@@ -24,19 +24,19 @@ func New(shortener *shorten.Service) *Server {
 }
 
 func (s *Server) SetupRoutes() {
-	s.e = echo.New()
+	s.E = echo.New()
 
 	//middleware?
 	
 	
 	//Routes
-	s.e.POST("/", HandlerShorten(s.shortening))
-	s.e.GET("/", HandlerRedirect(s.shortening))
+	s.E.POST("/", HandlerShorten(s.shortening))
+	s.E.GET("/", HandlerRedirect(s.shortening))
 
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter,r *http.Request) {
-	s.e.ServeHTTP(w,r)
+	s.E.ServeHTTP(w,r)
 }
 
 
