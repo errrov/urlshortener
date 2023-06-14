@@ -1,4 +1,4 @@
-# URL shortener for Ozon internship
+# URL shortener
 
 Created URL shortener service using Golang, Echo, Postgresql and Docker.
 
