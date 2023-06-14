@@ -6,9 +6,9 @@ import (
 	"log"
 	"testing"
 
-	"github.com/errrov/urlshortenerozon/internal/model"
-	"github.com/errrov/urlshortenerozon/internal/shorten"
-	"github.com/errrov/urlshortenerozon/internal/storage/psql"
+	"github.com/errrov/urlshortener/internal/model"
+	"github.com/errrov/urlshortener/internal/shorten"
+	"github.com/errrov/urlshortener/internal/storage/psql"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

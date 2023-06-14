@@ -3,8 +3,8 @@ package server
 import (
 	"net/http"
 	"log"
-	"github.com/errrov/urlshortenerozon/internal/model"
-	"github.com/errrov/urlshortenerozon/internal/shorten"
+	"github.com/errrov/urlshortener/internal/model"
+	"github.com/errrov/urlshortener/internal/shorten"
 	"github.com/labstack/echo/v4"
 )
 

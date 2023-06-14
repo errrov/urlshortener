@@ -10,10 +10,10 @@ import (
 
 	"os/signal"
 
-	"github.com/errrov/urlshortenerozon/internal/server"
-	"github.com/errrov/urlshortenerozon/internal/shorten"
-	"github.com/errrov/urlshortenerozon/internal/storage/in_memory"
-	"github.com/errrov/urlshortenerozon/internal/storage/psql"
+	"github.com/errrov/urlshortener/internal/server"
+	"github.com/errrov/urlshortener/internal/shorten"
+	"github.com/errrov/urlshortener/internal/storage/in_memory"
+	"github.com/errrov/urlshortener/internal/storage/psql"
 )
 
 func main() {

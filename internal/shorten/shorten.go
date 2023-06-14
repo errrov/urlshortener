@@ -1,8 +1,8 @@
 package shorten
 
 import (
-	"strings"
 	"net/url"
+	"strings"
 )
 
 const alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789_"
@@ -18,15 +18,15 @@ func Shorten(id uint32) string {
 	for num > 0 {
 		digits = append(digits, num%alphabetLen)
 		num /= alphabetLen
-	} 
-	reverse(digits)
+	}
+	Reverse(digits)
 	for _, digit := range digits {
 		shortString.WriteString(string(alphabet[digit]))
 	}
 	return shortString.String()
 }
 
-func reverse(nums []uint32) {
+func Reverse(nums []uint32) {
 	for i, j := 0, len(nums)-1; i < j; i, j = i+1, j-1 {
 		nums[i], nums[j] = nums[j], nums[i]
 	}

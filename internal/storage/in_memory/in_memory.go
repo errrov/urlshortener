@@ -3,7 +3,7 @@ package in_memory
 import (
 	"sync"
 
-	"github.com/errrov/urlshortenerozon/internal/model"
+	"github.com/errrov/urlshortener/internal/model"
 )
 
 type inMemory struct {

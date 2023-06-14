@@ -1,7 +1,7 @@
 package shorten
 
 import (
-	"github.com/errrov/urlshortenerozon/internal/model"
+	"github.com/errrov/urlshortener/internal/model"
 	"github.com/google/uuid"
 )
 

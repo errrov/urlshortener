@@ -3,7 +3,7 @@ package shorten_test
 import (
 	"testing"
 
-	"github.com/errrov/urlshortenerozon/internal/shorten"
+	"github.com/errrov/urlshortener/internal/shorten"
 )
 
 func TestShortenValid(t *testing.T) {
@@ -28,4 +28,3 @@ func TestShortenIdempotent(t *testing.T) {
 		}
 	}
 }
-

@@ -1,4 +1,4 @@
-module github.com/errrov/urlshortenerozon
+module github.com/errrov/urlshortener
 
 go 1.20
 

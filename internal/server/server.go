@@ -1,13 +1,10 @@
 package server
 
 import (
-	//"github.com/errrov/urlshortenerozon/internal/model"
 	"net/http"
 
-	"github.com/errrov/urlshortenerozon/internal/shorten"
-	//"github.com/errrov/urlshortenerozon/internal/storage/in_memory"
+	"github.com/errrov/urlshortener/internal/shorten"
 	"github.com/labstack/echo/v4"
-	//"github.com/labstack/echo/v4/middleware"
 )
 
 type Server struct {

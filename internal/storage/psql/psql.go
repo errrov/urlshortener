@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/errrov/urlshortenerozon/internal/model"
+	"github.com/errrov/urlshortener/internal/model"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
