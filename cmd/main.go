@@ -24,7 +24,9 @@ func main() {
 	if *storageType == "psql" {
 		log.Println("Psql")
 		d = psql.InitConnectionInfo()
-		shorteningStorage = psql.NewPsql(d)
+		psqlDB := psql.NewPsql(d)
+		defer psqlDB.Pgxpool.Close()
+		shorteningStorage = psqlDB
 		log.Println("Psql db")	
 
 	} else {

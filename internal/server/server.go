@@ -22,11 +22,6 @@ func New(shortener *shorten.Service) *Server {
 
 func (s *Server) SetupRoutes() {
 	s.E = echo.New()
-
-	//middleware?
-	
-	
-	//Routes
 	s.E.POST("/", HandlerShorten(s.shortening))
 	s.E.GET("/", HandlerRedirect(s.shortening))
 

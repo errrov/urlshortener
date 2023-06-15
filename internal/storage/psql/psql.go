@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+
 	"os"
 
 	"github.com/errrov/urlshortener/internal/model"
@@ -20,6 +21,7 @@ type ConnectionInfo struct {
 
 type Postgresql struct {
 	ConnectionString ConnectionInfo
+	Pgxpool          *pgxpool.Pool
 }
 
 type Dbrespones struct {
@@ -34,8 +36,11 @@ const query = `CREATE TABLE IF NOT EXISTS shorturl
 )`
 
 func NewPsql(d ConnectionInfo) *Postgresql {
+	log.Println("Creating new PSQL connection")
 	var resPsql Postgresql
 	resPsql.ConnectionString = d
+	resPsql.connect()
+	log.Println("Connected")
 	resPsql.EnsureTableExists()
 	return &resPsql
 
@@ -50,7 +55,7 @@ func InitConnectionInfo() ConnectionInfo {
 	return ConnectionInfo{User: User, Password: Password, Host: Host, Port: Port, Name: Name}
 }
 
-func (d *Postgresql) EnsureTableExists() {
+func (d *Postgresql) connect() {
 	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
 	cfg, err := pgxpool.ParseConfig(connectionStr)
 	if err != nil {
@@ -60,24 +65,17 @@ func (d *Postgresql) EnsureTableExists() {
 	if err != nil {
 		log.Panic(err)
 	}
-	defer dpPool.Close()
-	if _, err := dpPool.Exec(context.Background(), query); err != nil {
+	d.Pgxpool = dpPool
+}
+
+func (d *Postgresql) EnsureTableExists() {
+	if _, err := d.Pgxpool.Exec(context.Background(), query); err != nil {
 		log.Panic(err)
 	}
 }
 
 func (d *Postgresql) Add(shortened model.Shortened) (*model.Shortened, error) {
-	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
-	cfg, err := pgxpool.ParseConfig(connectionStr)
-	if err != nil {
-		log.Panic(err)
-	}
-	dpPool, err := pgxpool.NewWithConfig(context.Background(), cfg)
-	if err != nil {
-		log.Panic(err)
-	}
-	defer dpPool.Close()
-	_, err = dpPool.Exec(context.Background(), "INSERT INTO shorturl (originalurl, id) VALUES ($1, $2)", shortened.Original, shortened.Identifier)
+	_, err := d.Pgxpool.Exec(context.Background(), "INSERT INTO shorturl (originalurl, id) VALUES ($1, $2)", shortened.Original, shortened.Identifier)
 	if err != nil {
 		return nil, model.ErrIdExist
 	}
@@ -85,18 +83,8 @@ func (d *Postgresql) Add(shortened model.Shortened) (*model.Shortened, error) {
 }
 
 func (d *Postgresql) Get(identifier string) (*model.Shortened, error) {
-	connectionStr := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s", d.ConnectionString.User, d.ConnectionString.Password, d.ConnectionString.Host, d.ConnectionString.Port, d.ConnectionString.Name)
-	cfg, err := pgxpool.ParseConfig(connectionStr)
-	if err != nil {
-		log.Panic(err)
-	}
-	dpPool, err := pgxpool.NewWithConfig(context.Background(), cfg)
-	if err != nil {
-		log.Panic(err)
-	}
-	defer dpPool.Close()
 	var db_response Dbrespones
-	err = dpPool.QueryRow(context.Background(), "select * FROM shorturl WHERE id=$1", identifier).Scan(&db_response.OriginalURL, &db_response.Identifier)
+	err := d.Pgxpool.QueryRow(context.Background(), "select * FROM shorturl WHERE id=$1", identifier).Scan(&db_response.OriginalURL, &db_response.Identifier)
 	if err != nil {
 		return nil, model.ErrNotFound
 	}
